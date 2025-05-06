@@ -34,7 +34,7 @@ export class AuthController {
       user.id,
     )
     response.set('Set-Cookie', await cookie)
-    user.password = undefined
+    user.password = null;
     return response.send(user)
   }
 
@@ -42,7 +42,7 @@ export class AuthController {
   @Get()
   authenticate(@Req() request: RequestWithUser) {
     const user = request.user;
-    user.password = undefined;
+    user.password = null;
     return user;
   }
 

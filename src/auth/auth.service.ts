@@ -28,7 +28,7 @@ export class AuthService {
           ...registrationData,
           password: hashedPassword
         });
-        createdUser.password = undefined;
+        createdUser.password = null;
         return createdUser;
       } catch (error) {
         throw new HttpException('Something went wrong', HttpStatus.INTERNAL_SERVER_ERROR);
@@ -41,14 +41,14 @@ export class AuthService {
       try {
         const user = await this.usersService.getBylogin(login);
         await this.verifyPassword(plainTextPassword, user.password);
-        user.password = undefined;
+        user.password = null;
         return user;
       } catch (error) {
         throw new HttpException('Wrong credentials provided', HttpStatus.BAD_REQUEST);
       }
     }
      
-    private async verifyPassword(plainTextPassword: string, hashedPassword: string | undefined) {
+    private async verifyPassword(plainTextPassword: string, hashedPassword: string | null) {
       const isPasswordMatching = await bcrypt.compare(
         plainTextPassword,
         hashedPassword
